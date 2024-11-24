@@ -1,14 +1,10 @@
-﻿﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI; // Import necessário para UI
+﻿using UnityEngine;
+using TMPro;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : Singleton<ScoreManager>
 {
-    public static ScoreManager Instance;
-
     [Header("UI Elements")]
-    public Text scoreText;
+    public TextMeshProUGUI scoreText;
 
     [Header("Score Settings")]
     public int score = 0;
@@ -16,18 +12,8 @@ public class ScoreManager : MonoBehaviour
     public int pointsPerKill = 50;
     public int pointsLostOnEscape = 50;
 
-    private void Awake()
-    {
-        // Singleton pattern to ensure uma única instância
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    [Header("Player Reference")]
+    public Player player;
 
     private void Start()
     {

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyPathing : MonoBehaviour
@@ -11,11 +10,15 @@ public class EnemyPathing : MonoBehaviour
     private float progress = 0f;
     private float movementPerFrame = 0f;
 
+    private bool deductPoint = false;
+
     // Called when the object becomes enabled and active.
     void OnEnable()
     {
         // Every Time this object gets Active again, we need to reset progress value
         progress = 0f;
+
+        deductPoint = false;
 
         if( waveConfig )
         {
@@ -57,7 +60,8 @@ public class EnemyPathing : MonoBehaviour
         if (waypoints.Count == 3)
         {
             newPosition = QuadBezier();
-        } else
+        } 
+        else
         {
             newPosition = LinearBezier();
         }
@@ -67,6 +71,12 @@ public class EnemyPathing : MonoBehaviour
         if (progress >= 1f)
         {
             gameObject.SetActive(false);
+
+            if(!deductPoint)
+            {
+                ScoreManager.Instance.DeductEscapePoints();
+                deductPoint = true;
+            }
         }
 
     }
